@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Buildings>
-
-  <ThingDef Name="BuildingBase" Abstract="True">
-    <category>Building</category>
-    <thingClass>Building</thingClass>
-    <soundImpactDefault>BulletImpactMetal</soundImpactDefault>
-    <selectable>true</selectable>
-    <drawerType>MapMeshAndRealTime</drawerType>
-    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
-    <repairEffect>Repair</repairEffect>
-    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
-    <filthLeaving>BuildingRubble</filthLeaving>
-  </ThingDef>
+<Defs>
 
   <ThingDef ParentName="BuildingBase">
     <defName>DermalRegenerator</defName>
@@ -19,7 +7,7 @@
     <graphicData>
       <texPath>Things/Building/DermalRegenerator</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawsize>3,3</drawsize>
+      <drawSize>3,3</drawSize>
     </graphicData>
     <thingClass>DermalRegenerator.Building_DermalRegeneratorNew</thingClass>
     <altitudeLayer>Building</altitudeLayer>
@@ -29,8 +17,18 @@
     <statBases>
       <WorkToBuild>3200</WorkToBuild>
       <MaxHitPoints>250</MaxHitPoints>
-      <Flammability>1.0</Flammability>
+      <Flammability>0.9</Flammability>
+	  <BedRestEffectiveness>0.7</BedRestEffectiveness>
+	  <Comfort>0.7</Comfort>
+	  <ImmunityGainSpeedFactor>1.0</ImmunityGainSpeedFactor>
+	  <MedicalTendQualityOffset>0.10</MedicalTendQualityOffset>
+	  <SurgerySuccessChanceFactor>1</SurgerySuccessChanceFactor>
     </statBases>
+	<building>
+      <bed_showSleeperBody>False</bed_showSleeperBody>
+      <bed_healPerDay>9</bed_healPerDay>
+      <bed_defaultMedical>true</bed_defaultMedical>
+    </building>
     <tickerType>Normal</tickerType>
     <description>A medical device able to scan and repair surface tissue.</description>
     <size>(3,3)</size>
@@ -41,12 +39,8 @@
     <costList>
       <Steel>250</Steel>
       <Gold>10</Gold>
-      <Component>10</Component>
+      <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
-    <killedLeavings>
-      <ChunkSlagSteel>1</ChunkSlagSteel>
-    </killedLeavings>
-    <filthLeaving>BuildingRubble</filthLeaving>
     <comps>
       <li Class="CompProperties_Explosive">
         <explosiveRadius>2.66</explosiveRadius>
@@ -54,7 +48,6 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <startElectricalFires>true</startElectricalFires>
         <basePowerConsumption>600</basePowerConsumption>
       </li>
       <li Class="CompProperties_Breakdownable"/>
@@ -68,4 +61,4 @@
     </researchPrerequisites>
   </ThingDef>
 
-</Buildings>
+</Defs>

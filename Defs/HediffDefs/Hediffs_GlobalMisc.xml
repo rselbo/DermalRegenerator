@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <HediffDef Name="DiseaseBase" Abstract="True">
@@ -8,22 +8,55 @@
 
   <HediffDef ParentName="DiseaseBase">
     <defName>DermalRegeneratorSickness</defName>
-    <label>Dermal Regenerator sickness</label>
+    <label>Dermal Regenerator Sickness</label>
+    <description>The side effects of the dermal regeneration process include nausea, headaches, occasional death and worse.</description>
     <comps>
-      <li Class="HediffCompProperties_Disappears">
-        <disappearsAfterTicks>
-          <min>10000</min>
-          <max>10000</max>
-        </disappearsAfterTicks>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-5</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
       </li>
     </comps>
     <stages>
       <li>
+        <label>initial</label>
+        <vomitMtbDays>0.0675</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>minor</label>
+        <minSeverity>2.5</minSeverity>
+        <vomitMtbDays>0.125</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>serious</label>
+        <minSeverity>7</minSeverity>
         <vomitMtbDays>0.25</vomitMtbDays>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
-            <setMax>0.7</setMax>
+            <offset>-0.3</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>extreme</label>
+        <minSeverity>12</minSeverity>
+        <vomitMtbDays>0.5</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.5</offset>
           </li>
         </capMods>
       </li>

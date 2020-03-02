@@ -1,13 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
-using Verse.Sound;
 using RimWorld;
+using UnityEngine;
+using System.Linq;
 
 namespace DermalRegenerator
 {
@@ -16,10 +14,9 @@ namespace DermalRegenerator
         private int count = 0;
         private Pawn JobPawn = null;
         private Pawn OwnerPawn = null;
-        private int oldCount = 0;
         private Hediff foundInj = null;
-        private Job job1 = new Job();
-        private Job job2 = new Job();
+        private float foundInfInitialServerity = 0.0f;
+        private Hediff dermalSickness = null;
         private CompPowerTrader powerComp;
 
         public virtual bool UsableNow
@@ -35,10 +32,18 @@ namespace DermalRegenerator
             base.ExposeData();
         }
 
-        public override void SpawnSetup(Map map)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            base.SpawnSetup(map);
+            base.SpawnSetup(map, respawningAfterLoad);
             this.powerComp = base.GetComp<CompPowerTrader>();
+        }
+
+
+        private bool HasDermalInjury(Pawn pawn)
+        {
+            return pawn.health.hediffSet.hediffs
+                .Where(hediff => hediff is Hediff_Injury && hediff.IsPermanent())
+                .Any();
         }
 
         public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
@@ -47,32 +52,27 @@ namespace DermalRegenerator
             {
                 if (!myPawn.CanReserve(this))
                 {
-                    FloatMenuOption item = new FloatMenuOption("CannotUseReserved", null);
-                    return new List<FloatMenuOption>
-				{
-					item
-				};
+                    return new List<FloatMenuOption> { new FloatMenuOption("CannotUseReserved", null) };
                 }
                 if (!myPawn.CanReach(this, PathEndMode.Touch, Danger.Some))
                 {
-                    FloatMenuOption item2 = new FloatMenuOption("CannotUseNoPath", null);
-                    return new List<FloatMenuOption>
-				{
-					item2
-				};
-
+                    return new List<FloatMenuOption> { new FloatMenuOption("CannotUseNoPath", null) };
+                }
+                if(!HasDermalInjury(myPawn))
+                {
+                    return new List<FloatMenuOption> { new FloatMenuOption("NoInjuryToHeal", null) };
                 }
 
-                if (OwnerPawn == null)
+                if (OwnerPawn == null )
                 {
                     Action action = delegate
                     {
-                        job1 = new Job(JobDefOf.Goto, this.InteractionCell);
-                        job2 = new Job(JobDefOf.Wait, 9100);
+                        var job1 = new Job(JobDefOf.Goto, this.InteractionCell);
+                        var job2 = new Job(JobDefOf.Wait);
                         myPawn.jobs.TryTakeOrderedJob(job1);
-                        myPawn.drafter.pawn.QueueJob(job2);
+                        myPawn.jobs.jobQueue.EnqueueFirst(job2);
                         JobPawn = myPawn;
-                        myPawn.Reserve(this);
+                        myPawn.Reserve(this, job1);
                     };
                     list.Add(new FloatMenuOption("Use Dermal Regenerator", action));
                 }
@@ -144,52 +144,32 @@ namespace DermalRegenerator
 
         public override string GetInspectString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            string inspectString = base.GetInspectString();
-            if (!inspectString.NullOrEmpty())
+            if (JobPawn != null && OwnerPawn == null)
+                return "Waiting for patient.";
+
+            if (OwnerPawn != null && foundInj != null)
             {
-                stringBuilder.AppendLine(inspectString);
+                float progress = 100 / foundInfInitialServerity * (foundInfInitialServerity - foundInj.Severity);
+                return $"Treating {foundInj.Label} Progress: {progress:F0}%";
             }
-            if (OwnerPawn != null)
-            {
-                int scanpercent = count / 45;
-                int healpercent = (count - 4500) / 45;
-                if (count == 0)
-                {
-                    stringBuilder.AppendLine("Waiting for patient.");
-                }
-                else if (count <= 4500)
-                {
-                    stringBuilder.AppendLine("Scanning... Progress: " + scanpercent + "%");
-                    // TODO possibly change this to current stage percent AND total percent.
-                }
-                else
-                {
-                    stringBuilder.AppendLine("Treating... Progress: " + healpercent + "%");
-                }
-            }
-            return stringBuilder.ToString();
+            return base.GetInspectString();
         }
 
         public override void Tick()
         {
             base.Tick();
-            if(OwnerPawn != null && OwnerPawn.Position != this.InteractionCell)
+            if (OwnerPawn != null && OwnerPawn.Position != this.InteractionCell)
             {
                 OwnerPawn = null;
                 count = 0;
                 foundInj = null;
-                oldCount = 0;
             }
             if (JobPawn != null)
             {
                 if (OwnerPawn != null)
                 {
-                    string messageText1;
-                    messageText1 = "Dermal Regenerator in use.";
-                    Messages.Message(messageText1, MessageSound.Benefit);
-                    JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                    JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                    string messageText = "Dermal Regenerator in use.";
+                    Messages.Message(messageText, MessageTypeDefOf.NegativeEvent);
                     JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
                     JobPawn = null;
                     return;
@@ -207,12 +187,8 @@ namespace DermalRegenerator
                     }
                     else if (OwnerPawn == null && !this.UsableNow)
                     {
-                        string messageText2;
-                        messageText2 = "Dermal Regenerator doesnt have power.";
-                        Messages.Message(messageText2, MessageSound.Benefit);
-                        JobPawn.jobs.jobQueue.Clear();
-                        JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced); 
+                        string messageText = "Dermal Regenerator doesn't have power.";
+                        Messages.Message(messageText, MessageTypeDefOf.NegativeEvent);
                         JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         JobPawn = null;
                         return;
@@ -221,19 +197,12 @@ namespace DermalRegenerator
             }
             if (OwnerPawn != null && !this.UsableNow)
             {
-                string messageText3;
-                messageText3 = "Dermal Regenerator power interupted.";
-                Messages.Message(messageText3, MessageSound.Benefit);
-                OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                OwnerPawn.health.AddHediff(HediffDef.Named("DermalRegeneratorSickness"), null, null);
-                OwnerPawn = null;
-                count = 0;
-                foundInj = null;
-                oldCount = 0;
+                string messageText = "Dermal Regenerator power interupted.";
+                Messages.Message(messageText, MessageTypeDefOf.NegativeEvent);
+                ResetMachine();
                 return;
             }
+
             if (OwnerPawn != null && OwnerPawn.Position == this.InteractionCell && this.UsableNow)
             {
                 Map.glowGrid.VisualGlowAt(Position);
@@ -262,55 +231,52 @@ namespace DermalRegenerator
 
                 count++;
 
-                foreach (Hediff current in OwnerPawn.health.hediffSet.GetHediffs<Hediff>())
+
+                if(dermalSickness == null)
                 {
-                    if (current is Hediff_Injury && current.IsOld() && (current.Label.Contains("scar") || current.Label.Contains("Scar")))
+                    dermalSickness = GetOrAddDermalSickness();
+                }
+
+                foreach (var current in OwnerPawn.health.hediffSet.GetHediffs<Hediff_Injury>())
+                {
+                    if (current.IsPermanent())
                     {
-                        oldCount++;
+                        if(foundInfInitialServerity == 0.0f) foundInfInitialServerity = current.Severity;
+
                         foundInj = current;
-                    }
-                }
-
-                if (count >= 9000)
-                {
-                    OwnerPawn.health.hediffSet.hediffs.Remove(foundInj);
-                    OwnerPawn.health.Notify_HediffChanged(foundInj);
-                    foundInj = null;
-                    if (!HealthAIUtility.ShouldBeTendedNow(OwnerPawn))
-                    {
-                        string messageText4;
-                        messageText4 = "Treatment complete.";
-                        Messages.Message(messageText4, MessageSound.Benefit);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.health.AddHediff(HediffDef.Named("DermalRegeneratorSickness"), null, null);
-                        count = 0;
-                        foundInj = null;
-                        oldCount = 0;
-                        OwnerPawn = null;
-                    }
-                }
-
-                if (count == 4500)
-                {
-                    if (foundInj == null)
-                    {
-                        string messageText5;
-                        messageText5 = "No surface injuries discovered.";
-                        Messages.Message(messageText5, MessageSound.Benefit);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                        OwnerPawn.health.AddHediff(HediffDef.Named("DermalRegeneratorSickness"), null, null);
-                        OwnerPawn = null;
-                        count = 0;
-                        foundInj = null;
-                        oldCount = 0;
-                        return;
+                        dermalSickness.Severity += 0.00084f;
+                        current.Heal(0.00075f);
+                        if (current.ShouldRemove)
+                        {
+                            string messageText = $"Treatment of {current.Label} is complete.";
+                            Messages.Message(messageText, MessageTypeDefOf.PositiveEvent);
+                            ResetMachine();
+                        }
+                        break;
                     }
                 }
             }
+        }
+
+        private void ResetMachine()
+        {
+            OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+            count = 0;
+            foundInj = null;
+            foundInfInitialServerity = 0.0f;
+            OwnerPawn = null;
+            dermalSickness = null;
+        }
+
+        private Hediff GetOrAddDermalSickness()
+        {
+            var pawnDermalSickness = OwnerPawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("DermalRegeneratorSickness"));
+            if (pawnDermalSickness == null)
+            {
+                pawnDermalSickness = OwnerPawn.health.AddHediff(HediffDef.Named("DermalRegeneratorSickness"), null, null);
+                pawnDermalSickness.Severity = float.MinValue;
+            }
+            return pawnDermalSickness;
         }
     }
 }
