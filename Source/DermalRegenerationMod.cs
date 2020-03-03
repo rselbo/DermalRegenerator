@@ -27,7 +27,6 @@ namespace DermalRegenerator
             listingStandard.Begin(inRect);
             listingStandard.Label($"Dermal Regeneration Rate - { settings.RegenerationRate:0}% ");
             settings.RegenerationRate = listingStandard.Slider(settings.RegenerationRate, 0f, 300f);
-            listingStandard.Label($"{settings.RegenerationRate:0}%");
             listingStandard.Label($"Dermal Sickness Rate - { settings.SicknessRate:0}% ");
             settings.SicknessRate = listingStandard.Slider(settings.SicknessRate, 0f, 300f);
             listingStandard.End();
