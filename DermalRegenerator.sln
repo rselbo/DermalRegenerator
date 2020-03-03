@@ -1,9 +1,38 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DermalRegenerator", "Source\DermalRegenerator.csproj", "{A36BEEB2-7379-475B-B537-827E34571962}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mod", "Mod", "{4697ADE1-F7DB-4FDD-9343-9C5917B13BC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "About", "About", "{FCC92577-CAEF-4970-8FA8-0EF2A5127327}"
+	ProjectSection(SolutionItems) = preProject
+		Mod\About\About.xml = Mod\About\About.xml
+		Mod\About\Preview.png = Mod\About\Preview.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Defs", "Defs", "{3487890F-D7B4-43BD-A707-56885111EF4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HediffDefs", "HediffDefs", "{25B11CCF-93E3-438A-A3FD-69FC4644D64A}"
+	ProjectSection(SolutionItems) = preProject
+		Mod\Defs\HediffDefs\Hediffs_GlobalMisc.xml = Mod\Defs\HediffDefs\Hediffs_GlobalMisc.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResearchProjectDefs", "ResearchProjectDefs", "{73D91E2A-F74C-4680-9837-680D732D4A22}"
+	ProjectSection(SolutionItems) = preProject
+		Mod\Defs\ResearchProjectDefs\ResearchProjects_Misc.xml = Mod\Defs\ResearchProjectDefs\ResearchProjects_Misc.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThingDefs", "ThingDefs", "{05E07F8F-A3DD-4A92-9D58-CD471E515328}"
+	ProjectSection(SolutionItems) = preProject
+		Mod\Defs\ThingDefs\Motes.xml = Mod\Defs\ThingDefs\Motes.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{562ECD9E-63C8-4728-8340-4F0EF79E36E5}"
+	ProjectSection(SolutionItems) = preProject
+		Mod\Defs\ThingDefs\Misc\Misc_DermalRegenerator.xml = Mod\Defs\ThingDefs\Misc\Misc_DermalRegenerator.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +47,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCC92577-CAEF-4970-8FA8-0EF2A5127327} = {4697ADE1-F7DB-4FDD-9343-9C5917B13BC2}
+		{3487890F-D7B4-43BD-A707-56885111EF4D} = {4697ADE1-F7DB-4FDD-9343-9C5917B13BC2}
+		{25B11CCF-93E3-438A-A3FD-69FC4644D64A} = {3487890F-D7B4-43BD-A707-56885111EF4D}
+		{73D91E2A-F74C-4680-9837-680D732D4A22} = {3487890F-D7B4-43BD-A707-56885111EF4D}
+		{05E07F8F-A3DD-4A92-9D58-CD471E515328} = {3487890F-D7B4-43BD-A707-56885111EF4D}
+		{562ECD9E-63C8-4728-8340-4F0EF79E36E5} = {05E07F8F-A3DD-4A92-9D58-CD471E515328}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13B1C582-ACE2-4B4E-AD3B-9A99B07838F3}
 	EndGlobalSection
 EndGlobal
