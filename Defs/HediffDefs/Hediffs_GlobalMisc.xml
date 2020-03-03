@@ -19,7 +19,7 @@
     <stages>
       <li>
         <label>initial</label>
-        <vomitMtbDays>0.0675</vomitMtbDays>
+        <vomitMtbDays>1</vomitMtbDays>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
@@ -30,7 +30,7 @@
       <li>
         <label>minor</label>
         <minSeverity>2.5</minSeverity>
-        <vomitMtbDays>0.125</vomitMtbDays>
+        <vomitMtbDays>0.5</vomitMtbDays>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>
@@ -52,7 +52,7 @@
       <li>
         <label>extreme</label>
         <minSeverity>12</minSeverity>
-        <vomitMtbDays>0.5</vomitMtbDays>
+        <vomitMtbDays>0.125</vomitMtbDays>
         <capMods>
           <li>
             <capacity>Consciousness</capacity>

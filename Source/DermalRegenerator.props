@@ -1,0 +1,6 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!--  This is the folder the files are copied to after a successful build. For easy testing set it to your Rimworld mods folder -->
+    <DeployDir>.\Deploy</DeployDir>
+  </PropertyGroup>
+</Project>

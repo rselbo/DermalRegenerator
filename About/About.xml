@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>DermalRegenerator</name>
-  <author>Skullywag,rselbo</author>
+  <author>Skullywag, Broken Valkyrie, rselbo</author>
   <supportedVersions>
     <li>1.1</li>
   </supportedVersions>
   <description>Adds a machine with the ability to repair skin damage.</description>
+  <packageId>rselbo.dermalregenerator.1.0.0</packageId>
 </ModMetaData>

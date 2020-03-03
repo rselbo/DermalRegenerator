@@ -11,6 +11,12 @@ namespace DermalRegenerator
 {
     class Building_DermalRegeneratorNew : Building
     {
+        private DermalRegeneratorSettings settings;
+
+        public Building_DermalRegeneratorNew()
+        {
+            settings = LoadedModManager.GetMod<DermalRegenerationMod>().GetSettings<DermalRegeneratorSettings>();
+        }
         private int count = 0;
         private Pawn JobPawn = null;
         private Pawn OwnerPawn = null;
@@ -244,8 +250,8 @@ namespace DermalRegenerator
                         if(foundInfInitialServerity == 0.0f) foundInfInitialServerity = current.Severity;
 
                         foundInj = current;
-                        dermalSickness.Severity += 0.00084f;
-                        current.Heal(0.00075f);
+                        dermalSickness.Severity += 0.00084f * (settings.SicknessRate / 100.0f);
+                        current.Heal(0.00075f * (settings.RegenerationRate / 100.0f));
                         if (current.ShouldRemove)
                         {
                             string messageText = $"Treatment of {current.Label} is complete.";
