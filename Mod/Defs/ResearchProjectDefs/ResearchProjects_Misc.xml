@@ -8,12 +8,15 @@
 		<baseCost>1200</baseCost>
     <techLevel>Spacer</techLevel>
     <prerequisites>
-      <li>MicroelectronicsBasics</li>
+      <li>MultiAnalyzer</li>
     </prerequisites>
     <requiredResearchBuilding>HiTechResearchBench</requiredResearchBuilding>
     <requiredResearchFacilities>
       <li>MultiAnalyzer</li>
     </requiredResearchFacilities>
-	</ResearchProjectDef>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>4.50</researchViewY>
+
+  </ResearchProjectDef>
 
 </Defs>

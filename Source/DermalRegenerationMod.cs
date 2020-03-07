@@ -11,6 +11,8 @@ namespace DermalRegenerator
     class DermalRegenerationMod : Mod
     {
         private DermalRegeneratorSettings settings;
+        private string PowerUsageIdleBuffer;
+        private string PowerUsageWorkingBuffer;
 
         public DermalRegenerationMod(ModContentPack content) : base(content)
         {
@@ -29,6 +31,10 @@ namespace DermalRegenerator
             settings.RegenerationRate = listingStandard.Slider(settings.RegenerationRate, 0f, 300f);
             listingStandard.Label($"Dermal Sickness Rate - { settings.SicknessRate:0}% ");
             settings.SicknessRate = listingStandard.Slider(settings.SicknessRate, 0f, 300f);
+            listingStandard.Label($"Power Usage Idle");
+            listingStandard.TextFieldNumeric(ref settings.PowerUsageIdle, ref PowerUsageIdleBuffer, 0, 10000);
+            listingStandard.Label($"Power Usage Working");
+            listingStandard.TextFieldNumeric(ref settings.PowerUsageWorking, ref PowerUsageWorkingBuffer, 0, 10000);
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }

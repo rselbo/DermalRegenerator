@@ -8,6 +8,10 @@
       <texPath>Things/Building/DermalRegenerator</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>3,3</drawSize>
+      <shadowData>
+        <volume>(2.93,1,2.69)</volume>
+        <offset>(-0.03,0,-0.1)</offset>
+      </shadowData>
     </graphicData>
     <thingClass>DermalRegenerator.Building_DermalRegeneratorNew</thingClass>
     <altitudeLayer>Building</altitudeLayer>
@@ -18,17 +22,8 @@
       <WorkToBuild>3200</WorkToBuild>
       <MaxHitPoints>250</MaxHitPoints>
       <Flammability>0.9</Flammability>
-	  <BedRestEffectiveness>0.7</BedRestEffectiveness>
-	  <Comfort>0.7</Comfort>
-	  <ImmunityGainSpeedFactor>1.0</ImmunityGainSpeedFactor>
-	  <MedicalTendQualityOffset>0.10</MedicalTendQualityOffset>
-	  <SurgerySuccessChanceFactor>1</SurgerySuccessChanceFactor>
+      <Mass>50</Mass>
     </statBases>
-	<building>
-      <bed_showSleeperBody>False</bed_showSleeperBody>
-      <bed_healPerDay>9</bed_healPerDay>
-      <bed_defaultMedical>true</bed_defaultMedical>
-    </building>
     <tickerType>Normal</tickerType>
     <description>A medical device able to scan and repair surface tissue.</description>
     <size>(3,3)</size>
@@ -48,17 +43,20 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>600</basePowerConsumption>
+        <basePowerConsumption>100</basePowerConsumption>
       </li>
       <li Class="CompProperties_Breakdownable"/>
       <li Class="CompProperties_Flickable" />
     </comps>
     <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
     <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
-    <staticSunShadowHeight>1.0</staticSunShadowHeight>
     <researchPrerequisites>
       <li>DermalRegenerator</li>
     </researchPrerequisites>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
   </ThingDef>
 
 </Defs>

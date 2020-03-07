@@ -150,15 +150,23 @@ namespace DermalRegenerator
 
         public override string GetInspectString()
         {
+            StringBuilder stringBuilder = new StringBuilder();
+            String inspect = base.GetInspectString();
+            if (!inspect.NullOrEmpty())
+                stringBuilder.Append(inspect);
             if (JobPawn != null && OwnerPawn == null)
-                return "Waiting for patient.";
+            {
+                if (stringBuilder.Length > 0) stringBuilder.AppendLine();
+                stringBuilder.Append( "Waiting for patient.");
+            }
 
             if (OwnerPawn != null && foundInj != null)
             {
                 float progress = 100 / foundInfInitialServerity * (foundInfInitialServerity - foundInj.Severity);
-                return $"Treating {foundInj.Label} Progress: {progress:F0}%";
+                if (stringBuilder.Length > 0) stringBuilder.AppendLine();
+                stringBuilder.Append(inspect + "\n" + $"Treating {foundInj.Label} Progress: {progress:F0}%");
             }
-            return base.GetInspectString();
+            return stringBuilder.ToString();
         }
 
         public override void Tick()
@@ -211,6 +219,9 @@ namespace DermalRegenerator
 
             if (OwnerPawn != null && OwnerPawn.Position == this.InteractionCell && this.UsableNow)
             {
+                CompPowerTrader power = GetComp<CompPowerTrader>();
+                power.PowerOutput = settings.PowerUsageWorking * -1;
+
                 Map.glowGrid.VisualGlowAt(Position);
                 if (count < 4500)
                 {
@@ -237,8 +248,7 @@ namespace DermalRegenerator
 
                 count++;
 
-
-                if(dermalSickness == null)
+                if (dermalSickness == null)
                 {
                     dermalSickness = GetOrAddDermalSickness();
                 }
@@ -261,6 +271,11 @@ namespace DermalRegenerator
                         break;
                     }
                 }
+            }
+            else
+            {
+                CompPowerTrader power = GetComp<CompPowerTrader>();
+                power.PowerOutput = settings.PowerUsageIdle * -1;
             }
         }
 
