@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <HediffDef Name="DiseaseBase" Abstract="True">
+  <HediffDef Name="DermalRegenerator_DiseaseBase" Abstract="True">
     <hediffClass>HediffWithComps</hediffClass>
     <defaultLabelColor>(0.8, 0.8, 0.35)</defaultLabelColor>
   </HediffDef>
 
-  <HediffDef ParentName="DiseaseBase">
+  <HediffDef ParentName="DermalRegenerator_DiseaseBase">
     <defName>DermalRegeneratorSickness</defName>
     <label>Dermal Regenerator Sickness</label>
     <description>The side effects of the dermal regeneration process include nausea, headaches, occasional death and worse.</description>

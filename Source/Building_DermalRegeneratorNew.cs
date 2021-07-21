@@ -58,19 +58,20 @@ namespace DermalRegenerator
             {
                 if (!myPawn.CanReserve(this))
                 {
-                    return new List<FloatMenuOption> { new FloatMenuOption("CannotUseReserved", null) };
+                    return new List<FloatMenuOption> { new FloatMenuOption("Cannot use, reserved by another pawn", null) };
                 }
                 if (!myPawn.CanReach(this, PathEndMode.Touch, Danger.Some))
                 {
-                    return new List<FloatMenuOption> { new FloatMenuOption("CannotUseNoPath", null) };
+                    return new List<FloatMenuOption> { new FloatMenuOption("Cannot use, no path to Dermal Regenerator", null) };
                 }
                 if(!HasDermalInjury(myPawn))
                 {
-                    return new List<FloatMenuOption> { new FloatMenuOption("NoInjuryToHeal", null) };
+                    return new List<FloatMenuOption> { new FloatMenuOption("No injury to heal", null) };
                 }
 
                 if (OwnerPawn == null )
                 {
+
                     Action action = delegate
                     {
                         var job1 = new Job(JobDefOf.Goto, this.InteractionCell);
@@ -92,7 +93,7 @@ namespace DermalRegenerator
             {
                 return;
             }
-            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDef.Named("Mote_HealGreen"), null);
+            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDef.Named("DermalRegenerator_Mote_HealGreen"), null);
             moteThrown.Scale = Rand.Range(1.2f, 1.5f);
             //moteThrown.exactRotationRate = Rand.Range(0f, 0f);
             moteThrown.exactPosition = loc;
@@ -108,7 +109,7 @@ namespace DermalRegenerator
             {
                 return;
             }
-            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDef.Named("Mote_ScanBlue"), null);
+            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(ThingDef.Named("DermalRegenerator_Mote_ScanBlue"), null);
             moteThrown.Scale = Rand.Range(1.2f, 1.5f);
             //moteThrown.exactRotationRate = Rand.Range(0f, 0f);
             moteThrown.exactPosition = loc;
@@ -124,7 +125,7 @@ namespace DermalRegenerator
             {
                 return;
             }
-            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("Mote_LightningGlowBlue", true), null);
+            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("DermalRegenerator_Mote_LightningGlowBlue", true), null);
             moteThrown.Scale = 6f * size;
             moteThrown.rotationRate = 0f;
             moteThrown.exactPosition = loc;
@@ -139,7 +140,7 @@ namespace DermalRegenerator
             {
                 return;
             }
-            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("Mote_LightningGlowGreen", true), null);
+            MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("DermalRegenerator_Mote_LightningGlowGreen", true), null);
             moteThrown.Scale = 6f * size;
             moteThrown.rotationRate = 0f;
             moteThrown.exactPosition = loc;
