@@ -12,6 +12,7 @@ namespace DermalRegenerator
     class Building_DermalRegeneratorNew : Building
     {
         private DermalRegeneratorSettings settings;
+        private bool DebugLog = false;
 
         public Building_DermalRegeneratorNew()
         {
@@ -80,6 +81,7 @@ namespace DermalRegenerator
                         myPawn.jobs.jobQueue.EnqueueFirst(job2);
                         JobPawn = myPawn;
                         myPawn.Reserve(this, job1);
+                        if(DebugLog) Log.Message($"{JobPawn.ToString()} going to start treatment");
                     };
                     list.Add(new FloatMenuOption("Use Dermal Regenerator", action));
                 }
@@ -175,10 +177,10 @@ namespace DermalRegenerator
             base.Tick();
             if (OwnerPawn != null && OwnerPawn.Position != this.InteractionCell)
             {
-                OwnerPawn = null;
-                count = 0;
-                foundInj = null;
+                if (DebugLog) Log.Message($"{OwnerPawn.ToString()} moved off the interaction cell while working");
+                ResetMachine();
             }
+            
             if (JobPawn != null)
             {
                 if (OwnerPawn != null)
@@ -195,6 +197,7 @@ namespace DermalRegenerator
                     {
                         if (JobPawn.Position == this.InteractionCell)
                         {
+                            if (DebugLog) Log.Message($"{JobPawn.ToString()} entered the interaction cell");
                             OwnerPawn = JobPawn;
                             JobPawn = null;
                             return;
@@ -206,6 +209,7 @@ namespace DermalRegenerator
                         Messages.Message(messageText, MessageTypeDefOf.NegativeEvent);
                         JobPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         JobPawn = null;
+                        ResetMachine();
                         return;
                     }
                 }
@@ -282,12 +286,14 @@ namespace DermalRegenerator
 
         private void ResetMachine()
         {
+            if (DebugLog) Log.Message($"{OwnerPawn?.ToString()} was in the machine when it reset");
             OwnerPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
             count = 0;
             foundInj = null;
             foundInfInitialServerity = 0.0f;
             OwnerPawn = null;
             dermalSickness = null;
+            JobPawn = null;
         }
 
         private Hediff GetOrAddDermalSickness()
