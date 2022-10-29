@@ -29,8 +29,10 @@ namespace DermalRegenerator
             listingStandard.Begin(inRect);
             listingStandard.Label($"Dermal Regeneration Rate - { settings.RegenerationRate:0}% ");
             settings.RegenerationRate = listingStandard.Slider(settings.RegenerationRate, 0f, 300f);
-            listingStandard.Label($"Dermal Sickness Rate - { settings.SicknessRate:0}% ");
+            listingStandard.Label($"Dermal Sickness Rate - {settings.SicknessRate:0}% ");
             settings.SicknessRate = listingStandard.Slider(settings.SicknessRate, 0f, 300f);
+            listingStandard.Label($"Dermal Severity Reduction Per Day - {settings.SeverityReductionPerDay:0.0}/day ");
+            settings.SeverityReductionPerDay = listingStandard.Slider(settings.SeverityReductionPerDay, 0.1f, 20f);
             listingStandard.Label($"Power Usage Idle");
             listingStandard.TextFieldNumeric(ref settings.PowerUsageIdle, ref PowerUsageIdleBuffer, 0, 10000);
             listingStandard.Label($"Power Usage Working");

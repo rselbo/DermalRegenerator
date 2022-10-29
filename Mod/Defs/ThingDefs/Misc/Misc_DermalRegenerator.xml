@@ -37,17 +37,14 @@
       <ComponentIndustrial>8</ComponentIndustrial>
     </costList>
     <comps>
-      <li Class="CompProperties_Explosive">
-        <explosiveRadius>2.66</explosiveRadius>
-        <explosiveDamageType>Flame</explosiveDamageType>
-      </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
         <basePowerConsumption>100</basePowerConsumption>
       </li>
       <li Class="CompProperties_Breakdownable"/>
-      <li Class="CompProperties_Flickable" />
-    </comps>
+	  <li Class="CompProperties_Flickable" />
+	  <li Class="DermalRegenerator.CompProperties_DermalRegenerator" />
+	</comps>
     <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
     <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
     <researchPrerequisites>
