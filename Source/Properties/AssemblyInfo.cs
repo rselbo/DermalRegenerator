@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DermalRegenerator")]
-[assembly: AssemblyCopyright("Copyright ©  2015 (skullywag, rselbo)")]
+[assembly: AssemblyCopyright("Copyright © 2024 (skullywag, rselbo)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

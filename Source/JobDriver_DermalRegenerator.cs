@@ -69,17 +69,15 @@ namespace DermalRegenerator
                 return JobCondition.Ongoing;
             });
 
-            int counter = 0;
             toil.tickAction = delegate
             {
-                if(++counter % 100 == 0)
+                if (settings.SicknessRate > 0)
                 {
-                    Utilities.DebugLog($"{pawn.ToString()} HealScars toil tick {counter}");
-                }
-                Hediff tickSickness = Utilities.GetDermalSickness(toil.actor);
-                if (tickSickness == null) tickSickness = Utilities.AddDermalSickness(toil.actor);
+                    Hediff tickSickness = Utilities.GetDermalSickness(toil.actor);
+                    if (tickSickness == null) tickSickness = Utilities.AddDermalSickness(toil.actor);
 
-                tickSickness.Severity += 0.00084f * (settings.SicknessRate / 100.0f);
+                    tickSickness.Severity += 0.00084f * (settings.SicknessRate / 100.0f);
+                }
                 injury.Heal(0.00075f * (settings.RegenerationRate / 100.0f));
             };
 
