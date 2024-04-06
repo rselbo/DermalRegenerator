@@ -150,6 +150,11 @@ namespace DermalRegenerator
             CompPowerTrader power = GetComp<CompPowerTrader>();
             power.PowerOutput = -settings.PowerUsageIdle;
         }
+
+        public bool ActiveTreatement()
+        {
+            return m_ownerPawn != null;
+        }
     }
 
     class DermalRegeneratorComp : ThingComp

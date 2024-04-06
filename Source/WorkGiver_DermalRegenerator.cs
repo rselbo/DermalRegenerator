@@ -34,6 +34,13 @@ namespace DermalRegenerator
             IEnumerable<Building> allDermalRegenerators = pawn.Map.listerBuildings.AllBuildingsColonistOfDef(DermalRegenerator_ThingDefOf.DermalRegenerator);
             foreach (Building building in allDermalRegenerators)
             {
+                Building_DermalRegeneratorNew dermalBuilding = building as Building_DermalRegeneratorNew;
+                if (dermalBuilding != null && dermalBuilding.ActiveTreatement())
+                {
+                    Utilities.DebugLog($"{pawn.ToString()} ShouldSkip regenerator {dermalBuilding.ToString()} is already doing a treatement");
+                    continue;
+                }
+
                 CompPowerTrader comp = building.GetComp<CompPowerTrader>();
                 if ((comp == null || comp.PowerOn) && building.Map.designationManager.DesignationOn(building, DesignationDefOf.Uninstall) == null)
                 {
@@ -99,5 +106,6 @@ namespace DermalRegenerator
             Utilities.DebugLog($"{pawn.ToString()} WorkGiver_DermalRegenerator.JobOnThing {DermalRegenerator_JobDefOf.DermalRegeneratorHealScars.ToString()}");
             return JobMaker.MakeJob(DermalRegenerator_JobDefOf.DermalRegeneratorHealScars, t);
         }
+
     }
 }
