@@ -65,8 +65,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y $(TargetPath) $(SolutionDir)DermalRegenerator\Mod\1.4\Assemblies\
-#xcopy /Y /E $(SolutionDir)DermalRegenerator\Mod\ D:\SteamLibrary\steamapps\common\RimWorld\Mods\DermalRegenerator</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y $(TargetPath)  $(SolutionDir)DermalRegenerator\Mod\1.6\Assemblies\
+xcopy /Y /E $(SolutionDir)DermalRegenerator\Mod\ D:\SteamLibrary\steamapps\common\RimWorld\Mods\DermalRegenerator</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
